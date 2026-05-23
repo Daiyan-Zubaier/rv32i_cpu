@@ -1,0 +1,12 @@
+# .verible_verilog_lint
+# SystemVerilog linter config for RV32I CPU project
+
+-forbid_register   # No 'reg' keyword
++always_ff         # Require always_ff for sequential
++always_comb       # Require always_comb for combinational
+
++port_naming       # Flag ports that don't follow _i/_o/_n suffix convention
+
++signal_naming     # Enforce snake_case
+
++module_naming     # Enforce snake_case module names

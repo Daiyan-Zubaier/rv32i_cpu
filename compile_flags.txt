@@ -1,0 +1,11 @@
+-std=c++17
+-Iobj_dir
+-Idv
+-Irtl
+-I/usr/share/verilator/include
+-I/usr/share/verilator/include/vltstd
+-DVM_COVERAGE=0
+-DVM_SC=0
+-DVM_TRACE=1
+-DVM_TRACE_FST=0
+-DVM_TRACE_VCD=1
