@@ -8,7 +8,7 @@ Simulation uses [Verilator](https://www.veripool.org/verilator/) and [GTKWave](h
 Cool diagram I made!
 ![doc/rv32i_core.svg](doc/rv32i_core.svg)
 
-## Profileer Results
+## Profiler Results
 ```
 Core profile: waves/rv32i_core.vcd
   cycles after reset: 220
@@ -109,6 +109,6 @@ Expected fail result:
 The profiler reports `idle spin` for retired halt-loop instructions after the smoke program has passed. For core performance, prefer the useful CPI/IPC numbers.
 
 # TODO
-Add WM forwarding.
+Add WM forwarding. I was mostly looking at the waveforms to debug my core (checking pass and fail), should probably add in a tb to make it easier to debug.
 
 I'd probably like to come back to this project and add in various peripherals that the cpu can use.
