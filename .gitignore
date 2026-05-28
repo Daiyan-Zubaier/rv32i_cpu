@@ -2,3 +2,4 @@ obj_dir/
 waves/
 programs/*.elf
 .*/
+__pycache__

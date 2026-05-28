@@ -50,12 +50,11 @@ bool check_eq(const std::string &test_name, const std::string &signal_name, uint
   return false;
 }
 
-bool check_outputs(Vrv32i_control_logic &dut, const std::string &name, uint8_t exp_pc_sel, uint8_t exp_imm_sel, uint8_t exp_reg_w_en, uint8_t exp_br_unsign, uint8_t exp_a_sel, uint8_t exp_b_sel,
+bool check_outputs(Vrv32i_control_logic &dut, const std::string &name, uint8_t exp_imm_sel, uint8_t exp_reg_w_en, uint8_t exp_br_unsign, uint8_t exp_a_sel, uint8_t exp_b_sel,
                    uint8_t exp_alu_sel, uint8_t exp_mem_write_en, uint8_t exp_wb_sel) {
   dut.eval();
 
   bool pass = true;
-  pass &= check_eq(name, "pc_sel_o", dut.pc_sel_o, exp_pc_sel);
   pass &= check_eq(name, "imm_sel_o", dut.imm_sel_o, exp_imm_sel);
   pass &= check_eq(name, "reg_w_en_o", dut.reg_w_en_o, exp_reg_w_en);
   pass &= check_eq(name, "br_unsign_o", dut.br_unsign_o, exp_br_unsign);
@@ -74,34 +73,29 @@ int main(int argc, char **argv) {
   Vrv32i_control_logic dut;
   bool pass = true;
 
-  dut.br_eq_i = 0;
-  dut.br_lt_i = 0;
-
   dut.inst_i = r_inst(0b0000000, 0x0);
-  pass &= check_outputs(dut, "add", 0, kRType, 1, 0, 0, 0, kAluAdd, 0, 0b01);
+  pass &= check_outputs(dut, "add", kRType, 1, 0, 0, 0, kAluAdd, 0, 0b01);
 
   dut.inst_i = r_inst(0b0100000, 0x0);
-  pass &= check_outputs(dut, "sub", 0, kRType, 1, 0, 0, 0, kAluSub, 0, 0b01);
+  pass &= check_outputs(dut, "sub", kRType, 1, 0, 0, 0, kAluSub, 0, 0b01);
 
   dut.inst_i = i_inst(0x0, kOpcodeOpImm);
-  pass &= check_outputs(dut, "addi", 0, kIType, 1, 0, 0, 1, kAluAdd, 0, 0b01);
+  pass &= check_outputs(dut, "addi", kIType, 1, 0, 0, 1, kAluAdd, 0, 0b01);
 
   dut.inst_i = i_inst(0x4, kOpcodeOpImm);
-  pass &= check_outputs(dut, "xori", 0, kIType, 1, 0, 0, 1, kAluXor, 0, 0b01);
+  pass &= check_outputs(dut, "xori", kIType, 1, 0, 0, 1, kAluXor, 0, 0b01);
 
   dut.inst_i = i_inst(0x2, kOpcodeLoad);
-  pass &= check_outputs(dut, "lw", 0, kIType, 1, 0, 0, 1, kAluAdd, 0, 0b00);
+  pass &= check_outputs(dut, "lw", kIType, 1, 0, 0, 1, kAluAdd, 0, 0b00);
 
   dut.inst_i = s_inst(0x2);
-  pass &= check_outputs(dut, "sw", 0, kSType, 0, 0, 0, 1, kAluAdd, 1, 0b01);
+  pass &= check_outputs(dut, "sw", kSType, 0, 0, 0, 1, kAluAdd, 1, 0b01);
 
-  dut.br_eq_i = 1;
   dut.inst_i = b_inst(0x0);
-  pass &= check_outputs(dut, "beq taken", 1, kBType, 0, 0, 1, 1, kAluAdd, 0, 0b01);
+  pass &= check_outputs(dut, "beq", kBType, 0, 0, 1, 1, kAluAdd, 0, 0b01);
 
-  dut.br_eq_i = 0;
   dut.inst_i = (1u << 15) | kOpcodeJal;
-  pass &= check_outputs(dut, "jal", 1, kJType, 1, 0, 1, 1, kAluAdd, 0, 0b10);
+  pass &= check_outputs(dut, "jal", kJType, 1, 0, 1, 1, kAluAdd, 0, 0b10);
 
   dut.final();
 

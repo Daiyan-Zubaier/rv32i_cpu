@@ -2,10 +2,7 @@ module rv32i_control_logic
   import rv32i_pkg::*;
 (
   input logic [31:0]  inst_i,
-  input logic         br_eq_i,
-  input logic         br_lt_i,
 
-  output logic        pc_sel_o,
   output inst_type_e  imm_sel_o,
   output logic        reg_w_en_o,
   output logic        br_unsign_o,
@@ -26,7 +23,6 @@ module rv32i_control_logic
   assign unused_inst = ^{inst_i[31], inst_i[29:15], inst_i[11:7]};
 
   always_comb begin
-    pc_sel_o = 1'b0;
     imm_sel_o = R_TYPE;
     reg_w_en_o = 1'b0;
     br_unsign_o = 1'b0;
@@ -101,17 +97,11 @@ module rv32i_control_logic
         alu_sel_o = ALU_ADD;
 
         unique case (funct_3)
-          3'h0: pc_sel_o = br_eq_i;
-          3'h1: pc_sel_o = !br_eq_i;
-          3'h4: pc_sel_o = br_lt_i;
-          3'h5: pc_sel_o = !br_lt_i;
           3'h6: begin
             br_unsign_o = 1'b1;
-            pc_sel_o = br_lt_i;
           end
           3'h7: begin
             br_unsign_o = 1'b1;
-            pc_sel_o = !br_lt_i;
           end
           default: begin
             // do nothing
@@ -119,7 +109,6 @@ module rv32i_control_logic
         endcase
       end
       OPCODE_JAL: begin
-        pc_sel_o = 1'b1;
         imm_sel_o = J_TYPE;
         reg_w_en_o = 1'b1;
         a_sel_o = 1'b1;
@@ -128,7 +117,6 @@ module rv32i_control_logic
         wb_sel_o = 2'b10;
       end
       OPCODE_JALR: begin
-        pc_sel_o = 1'b1;
         imm_sel_o = I_TYPE;
         reg_w_en_o = 1'b1;
         a_sel_o = 1'b0;

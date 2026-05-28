@@ -35,4 +35,60 @@ package rv32i_pkg;
     OPCODE_AUIPC    = 7'b0010111,  // auipc
     OPCODE_SYSTEM   = 7'b1110011   // ecall, ebreak (csr ops added later)
   } opcode_e;
+
+  /*
+   * ===============================
+   * Pipeline register defintions
+   * ===============================
+  */
+  typedef struct packed {
+    logic        valid;
+    logic [31:0] pc;
+    logic [31:0] pc_plus_4;
+    logic [31:0] inst;
+  } if_id_t;
+
+  typedef struct packed {
+    logic        valid;
+    logic [31:0] pc;
+    logic [31:0] inst;
+    inst_type_e  imm_sel;
+    logic [31:0] pc_plus_4;
+    logic [31:0] data_a;
+    logic [31:0] data_b;
+    logic [31:0] imm;
+    logic [4:0]  rs1;
+    logic [4:0]  rs2;
+    logic [4:0]  rd;
+    logic        branch_unsigned;
+    logic        a_sel;
+    logic        b_sel;
+    alu_op_e     alu_sel;
+    logic        reg_write_en;
+    logic        mem_write_en;
+    logic [1:0]  wb_sel;
+  } id_ex_t;
+
+  typedef struct packed {
+    logic        valid;
+    logic [31:0] pc_plus_4;
+    logic [31:0] alu_result;
+    logic [31:0] data_b;
+    logic [4:0]  rd;
+    logic [2:0]  funct3;
+    logic        reg_write_en;
+    logic        mem_write_en;
+    logic [1:0]  wb_sel;
+  } ex_mem_t;
+
+  typedef struct packed {
+    logic        valid;
+    logic [31:0] pc_plus_4;
+    logic [31:0] alu_result;
+    logic [31:0] data_r;
+    logic [4:0]  rd;
+    logic        reg_write_en;
+    logic [1:0]  wb_sel;
+  } mem_wb_t;
+
 endpackage : rv32i_pkg
