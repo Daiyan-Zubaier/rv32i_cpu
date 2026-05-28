@@ -1,6 +1,6 @@
 # rv32i-cpu
 
-A single-cycle RV32I processor in SystemVerilog, with the goal of pipelining and eventually targeting an FPGA (maybe). Code style follows the [lowRISC style guide](https://github.com/lowRISC/style-guides).
+Code style follows the [lowRISC style guide](https://github.com/lowRISC/style-guides).
 
 Simulation uses [Verilator](https://www.veripool.org/verilator/) and [GTKWave](https://gtkwave.sourceforge.net/) for viewing the resulting VCD waveforms. Testbenches are written as C++ harnesses around the Verilator-generated DUT, UVM was considered but skipped, as the methodology overhead isn't justified at this scale.
 
@@ -111,4 +111,4 @@ The profiler reports `idle spin` for retired halt-loop instructions after the sm
 # TODO
 Add WM forwarding. I was mostly looking at the waveforms to debug my core (checking pass and fail), should probably add in a tb to make it easier to debug.
 
-I'd probably like to come back to this project and add in various peripherals that the cpu can use.
+I'd probably like to come back to this project and add in various peripherals that the cpu can use. Maybe target an FPGA, if I have motivation.
