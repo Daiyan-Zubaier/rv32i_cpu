@@ -112,4 +112,3 @@ The profiler reports `idle spin` for retired halt-loop instructions after the sm
 Add WM forwarding. I was mostly looking at the waveforms to debug my core (checking pass and fail), should probably add in a tb to make it easier to debug.
 
 I'd probably like to come back to this project and add in various peripherals that the cpu can use.
-# rv32i_cpu
